@@ -1,6 +1,6 @@
 public class Main {
     public static void main(String[] args) {
-        final int simulationRuns = 2;
+        final int simulationRuns = 5;
 
         double[] totalElements = new double[simulationRuns];
         double[] finalProcessed = new double[simulationRuns];
@@ -15,14 +15,14 @@ public class Main {
             long startTime = System.currentTimeMillis();
 
             BasicSimulation main = new BasicSimulation();
-            Model model = main.createBasicModel(20);
+            Model model = main.createBasicModel(40);
 
             Element.nextId = 0;
 
             model.simulate(1000.0);
 
             long endTime = System.currentTimeMillis();
-            double executionTime = (endTime - startTime) / 1000.0;
+            double executionTime = (endTime - startTime);
 
 
             totalElements[i] = model.getProcesses().get(0).getQuantity();
@@ -34,7 +34,7 @@ public class Main {
             processedType3[i] = model.getSuccessfulWoodenPlankByTypes()[2];
             simulationTimes[i] = executionTime;
 
-            System.out.println("Execution time for run " + (i+1) + ": " + executionTime + " seconds");
+            System.out.println("Execution time for run " + (i+1) + ": " + executionTime + " ms");
         }
 
 

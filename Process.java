@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class Process extends Element {
     private int queue;
@@ -192,7 +193,8 @@ public class Process extends Element {
         return -1;
     }
     public void inAct(Item item) {
-        if (checkIfBlocked()) {
+        manageBlock();
+        if (isBlocked) {
             System.out.println("Process is under maintenance. Item rejected.");
             failure++;
             return;
@@ -260,13 +262,17 @@ public class Process extends Element {
 
         return item;
     }
-    private boolean checkIfBlocked() {
+    public void manageBlock() {
+        checkIfBlocked(() ->
+                maintenanceModeEnabled && getQuantity() % 100 == 1 && getQuantity() >= 100 && !isBlocked
+        );
+    }
+    private boolean checkIfBlocked(Supplier<Boolean> blockCondition) {
         if (maintenanceModeEnabled && isBlocked && getTcurr() < blockEndTime) {
             return true;
         }
 
-        // Активація блокування
-        if (maintenanceModeEnabled && getQuantity() % 100 == 1 && getQuantity() >= 100 && !isBlocked) {
+        if (blockCondition.get()) {
             isBlocked = true;
             blockEndTime = getTcurr() + 10;
             return true;

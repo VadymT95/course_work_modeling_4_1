@@ -54,14 +54,16 @@ public class BasicSimulation {
             Map<Integer, Double> transitionProbabilities = new HashMap<>();
             if (i + 1 < numberOfProcesses) {
 
-                transitionProbabilities.put(i + 1, 1.0);
+                transitionProbabilities.put(i + 1, 0.9);
+                transitionProbabilities.put(i , 0.1);
+
             }
 
-            Process proc1 = new Process(10.0, 15, i, 30,"exp", transitionProbabilities,  null, 0); // 1 - тип переходу за пріоритетами
+            Process proc1 = new Process(1.0, 10, i, 10,"exp", transitionProbabilities,  null, 0); // 1 - тип переходу за пріоритетами
             proc1.setDelayDev(0.3);
-            proc1.setIsSortingEnabled(1);
-            proc1.setQueueModificationAllowed(true);
-            proc1.setMaintenanceModeEnabled(true);
+            proc1.setIsSortingEnabled(0);
+            proc1.setQueueModificationAllowed(false);
+            proc1.setMaintenanceModeEnabled(false);
             list.add(proc1);
         }
 
